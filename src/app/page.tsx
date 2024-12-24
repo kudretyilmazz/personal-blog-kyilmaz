@@ -1,5 +1,5 @@
 import { ThemeToggle } from "@/components/theme-toggle";
-import { Github, Linkedin, Twitter } from "lucide-react";
+import { Github, Linkedin, Twitter, Mail } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -49,29 +49,42 @@ export default function Home() {
 				</section>
 
 				<section className="mb-20">
-					<h2 className="text-2xl font-semibold mb-6">Connect with me</h2>
-					<div className="flex gap-6">
-						<Link
-							href="https://github.com/kudretyilmazz"
-							className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 -m-2"
-							target="_blank"
-						>
-							<Github className="w-6 h-6" />
-						</Link>
-						<Link
-							href="https://www.linkedin.com/in/kudretyilmaz/"
-							className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 -m-2"
-							target="_blank"
-						>
-							<Linkedin className="w-6 h-6" />
-						</Link>
-						<Link
-							href="https://x.com/kudretylmzzz"
-							className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 -m-2"
-							target="_blank"
-						>
-							<Twitter className="w-6 h-6" />
-						</Link>
+					<div className="space-y-4">
+						<h2 className="text-2xl font-semibold">Connect with me</h2>
+						<div className="flex items-center gap-2">
+							<Link
+								href="mailto:kudretylmzzz@gmail.com"
+								className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 -m-2"
+								target="_blank"
+							>
+								<Mail className="w-6 h-6" />
+							</Link>
+
+							<p className="text-gray-600 dark:text-gray-300 font-medium">kudretylmzzz@gmail.com</p>
+						</div>
+						<div className="flex gap-6">
+							<Link
+								href="https://github.com/kudretyilmazz"
+								className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 -m-2"
+								target="_blank"
+							>
+								<Github className="w-6 h-6" />
+							</Link>
+							<Link
+								href="https://www.linkedin.com/in/kudretyilmaz/"
+								className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 -m-2"
+								target="_blank"
+							>
+								<Linkedin className="w-6 h-6" />
+							</Link>
+							<Link
+								href="https://x.com/kudretylmzzz"
+								className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors p-2 -m-2"
+								target="_blank"
+							>
+								<Twitter className="w-6 h-6" />
+							</Link>
+						</div>
 					</div>
 				</section>
 
