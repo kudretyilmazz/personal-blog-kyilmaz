@@ -124,7 +124,7 @@ export default function Home() {
 
 					<main className="pt-16 lg:w-1/2 lg:py-24">
 						<section className="mb-24">
-							<h2 className="sticky top-0 z-20 -mx-6 mb-4 bg-white/75 px-6 py-5 text-sm font-bold uppercase tracking-widest text-slate-800 backdrop-blur dark:bg-black/75 dark:text-slate-200">
+							<h2 className="sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 text-sm font-bold uppercase tracking-widest text-slate-800 dark:text-slate-200">
 								Training Services
 							</h2>
 							<div className="space-y-8">
@@ -192,7 +192,7 @@ export default function Home() {
 						</section>
 
 						<section className="mb-16">
-							<h2 className="sticky top-0 z-20 -mx-6 mb-4 bg-white/75 px-6 py-5 text-sm font-bold uppercase tracking-widest text-slate-800 backdrop-blur dark:bg-black/75 dark:text-slate-200">
+							<h2 className="sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 text-sm font-bold uppercase tracking-widest text-slate-800 dark:text-slate-200">
 								Featured Projects
 							</h2>
 							<div className="group/list">
