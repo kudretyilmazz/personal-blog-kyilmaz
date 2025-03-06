@@ -2,6 +2,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { Github, Linkedin, Twitter, Mail, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import Parser from "rss-parser";
 
 const projects = [
 	{
@@ -11,6 +12,14 @@ const projects = [
 		link: "https://cosyworker.com",
 		imageUrl: "/csw-logo.png",
 		tags: ["React Native", "Node.js", "PostgreSQL", "Docker"],
+	},
+	{
+		title: "MailMorph",
+		description:
+			"Our artificial intelligence system analyzes multiple factors to determine if an email address is legitimate or temporary.",
+		link: "https://mailmorph.com",
+		imageUrl: "/mailmorph.png",
+		tags: ["ChatGPT", "Next.js", "Tailwind CSS", "Supabase"],
 	},
 ];
 
@@ -29,7 +38,28 @@ const trainingServices = [
 	},
 ];
 
-export default function Home() {
+type MediumArticle = {
+	title: string;
+	link: string;
+	pubDate: string;
+	content: string;
+};
+
+async function getMediumArticles(): Promise<MediumArticle[]> {
+	const parser = new Parser();
+	const feed = await parser.parseURL("https://medium.com/feed/@kudretylmzzz");
+	const items = feed.items?.slice(0, 2);
+	return items.map(item => ({
+		title: item.title || "",
+		link: item.link || "",
+		pubDate: item.pubDate || "",
+		content: item.content || "",
+	}));
+}
+
+export default async function Home() {
+	const articles = await getMediumArticles();
+
 	return (
 		<main className="relative min-h-screen bg-white selection:bg-teal-100 dark:bg-black dark:selection:bg-teal-950">
 			<div className="pointer-events-none fixed inset-0 z-30 transition duration-300 lg:absolute" />
@@ -123,7 +153,92 @@ export default function Home() {
 					</header>
 
 					<main className="pt-16 lg:w-1/2 lg:py-24">
-						<section className="mb-24">
+						<section className="mb-16">
+							<h2 className="sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 text-sm font-bold uppercase tracking-widest text-slate-800 dark:text-slate-200">
+								Featured Projects
+							</h2>
+							<div className="group/list">
+								{projects.map((project, index) => (
+									<Link
+										key={index}
+										href={project.link}
+										target="_blank"
+										className="group/item block"
+									>
+										<article className="relative mb-8 rounded-2xl bg-slate-50 p-6 transition-all hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:bg-slate-800">
+											<div className="absolute -inset-x-4 -inset-y-6 z-0 rounded-2xl transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-100/70 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg dark:lg:group-hover:bg-slate-800/50 dark:lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)]" />
+											<div className="relative z-10">
+												<div className="flex items-center gap-4">
+													<div className="relative h-12 w-12 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
+														<Image
+															src={project.imageUrl}
+															alt={project.title}
+															fill
+															className="object-cover"
+														/>
+													</div>
+													<h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200">
+														{project.title}
+													</h3>
+													<ArrowUpRight className="ml-auto h-5 w-5 text-slate-400 transition-transform group-hover/item:-translate-y-1 group-hover/item:translate-x-1 dark:text-slate-500" />
+												</div>
+												<p className="mt-4 text-slate-600 dark:text-slate-400">
+													{project.description}
+												</p>
+												<ul className="mt-4 flex flex-wrap gap-2">
+													{project.tags.map(tag => (
+														<li
+															key={tag}
+															className="rounded-full bg-teal-50 px-3 py-1 text-xs text-teal-700 ring-1 ring-inset ring-teal-600/20 dark:bg-teal-500/10 dark:text-teal-300 dark:ring-teal-400/20"
+														>
+															{tag}
+														</li>
+													))}
+												</ul>
+											</div>
+										</article>
+									</Link>
+								))}
+							</div>
+						</section>
+						<section className="mb-16">
+							<h2 className="sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 text-sm font-bold uppercase tracking-widest text-slate-800 dark:text-slate-200">
+								Latest Articles
+							</h2>
+							<div className="space-y-4">
+								{articles.map((article, index) => (
+									<Link key={index} href={article.link} target="_blank" className="group block">
+										<article className="relative rounded-2xl bg-slate-50 p-6 transition-all hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:bg-slate-800">
+											<div className="flex flex-col gap-4">
+												<div className="flex items-center justify-between">
+													<h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">
+														{article.title}
+													</h3>
+													<ArrowUpRight className="h-5 w-5 text-slate-400 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 dark:text-slate-500" />
+												</div>
+												<time className="text-sm text-slate-500 dark:text-slate-400">
+													{new Date(article.pubDate).toLocaleDateString("tr-TR", {
+														year: "numeric",
+														month: "long",
+														day: "numeric",
+													})}
+												</time>
+											</div>
+										</article>
+									</Link>
+								))}
+
+								<Link
+									href="https://medium.com/@kudretylmzzz"
+									target="_blank"
+									className="group inline-flex items-center gap-2 text-sm font-medium text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200"
+								>
+									Read more articles
+									<ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1" />
+								</Link>
+							</div>
+						</section>
+						<section className="mb-16">
 							<h2 className="sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 text-sm font-bold uppercase tracking-widest text-slate-800 dark:text-slate-200">
 								Training Services
 							</h2>
@@ -188,55 +303,6 @@ export default function Home() {
 										</Link>
 									</div>
 								</div>
-							</div>
-						</section>
-
-						<section className="mb-16">
-							<h2 className="sticky top-0 z-20 -mx-6 mb-4 px-6 py-5 text-sm font-bold uppercase tracking-widest text-slate-800 dark:text-slate-200">
-								Featured Projects
-							</h2>
-							<div className="group/list">
-								{projects.map((project, index) => (
-									<Link
-										key={index}
-										href={project.link}
-										target="_blank"
-										className="group/item block"
-									>
-										<article className="relative mb-12 rounded-2xl bg-slate-50 p-6 transition-all hover:bg-slate-100 dark:bg-slate-800/50 dark:hover:bg-slate-800">
-											<div className="absolute -inset-x-4 -inset-y-6 z-0 rounded-2xl transition motion-reduce:transition-none lg:-inset-x-6 lg:block lg:group-hover:bg-slate-100/70 lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)] lg:group-hover:drop-shadow-lg dark:lg:group-hover:bg-slate-800/50 dark:lg:group-hover:shadow-[inset_0_1px_0_0_rgba(148,163,184,0.1)]" />
-											<div className="relative z-10">
-												<div className="flex items-center gap-4">
-													<div className="relative h-12 w-12 overflow-hidden rounded-full bg-slate-100 dark:bg-slate-800">
-														<Image
-															src={project.imageUrl}
-															alt={project.title}
-															fill
-															className="object-cover"
-														/>
-													</div>
-													<h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200">
-														{project.title}
-													</h3>
-													<ArrowUpRight className="ml-auto h-5 w-5 text-slate-400 transition-transform group-hover/item:-translate-y-1 group-hover/item:translate-x-1 dark:text-slate-500" />
-												</div>
-												<p className="mt-4 text-slate-600 dark:text-slate-400">
-													{project.description}
-												</p>
-												<ul className="mt-4 flex flex-wrap gap-2">
-													{project.tags.map(tag => (
-														<li
-															key={tag}
-															className="rounded-full bg-teal-50 px-3 py-1 text-xs text-teal-700 ring-1 ring-inset ring-teal-600/20 dark:bg-teal-500/10 dark:text-teal-300 dark:ring-teal-400/20"
-														>
-															{tag}
-														</li>
-													))}
-												</ul>
-											</div>
-										</article>
-									</Link>
-								))}
 							</div>
 						</section>
 					</main>
